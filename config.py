@@ -11,11 +11,11 @@ API_HASH = getenv("API_HASH")
 BOT_TOKEN = getenv("BOT_TOKEN")
 BOT_ID = getenv("BOT_ID")
 
-OWNER_USERNAME = getenv("OWNER_USERNAME", "")
-BOT_USERNAME = getenv("BOT_USERNAME", "")
-BOT_NAME = getenv("BOT_NAME", "")
+OWNER_USERNAME = getenv("OWNER_USERNAME", "Xbroze")
+BOT_USERNAME = getenv("BOT_USERNAME", "@Clonemusichubot")
+BOT_NAME = getenv("BOT_NAME", "CLONE MUSIC")
 ASSUSERNAME = getenv("ASSUSERNAME", "")
-BOT_LINK = getenv("BOT_LINK", "https://t.me/CLOONE_MUSIC_BOT?start=_tgr_QHn2CMQ5Njc1")
+BOT_LINK = getenv("BOT_LINK", "https://t.me/Clonemusichubot?start=_tgr_QHn2CMQ5Njc1")
 
 MONGO_DB_URI = getenv("")
 
@@ -36,23 +36,23 @@ API_2_KEY = getenv("API_2_KEY", "b3f5d5_v1VHZtQsCDFtLOGO0OuD7iqHqVDCSOwa")
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 17000))
 
 LOGGER_ID = int(getenv("LOGGER_ID", "0"))
-CLONE_LOGGER = LOGGER_ID
+CLONE_LOGGER = -1003541175831
 
-OWNER_ID = int(getenv("OWNER_ID", "7582584348"))
+OWNER_ID = int(getenv("OWNER_ID", "7524032836"))
 
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 
 UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
-    "https://github.com/icakofisuw242-droid/CloneMusicBot",
+    "t.me/zolvid",
 )
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "main")
 GIT_TOKEN = getenv("GIT_TOKEN", "")
 
-SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/MusicXUpdate")
-SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/GUPTA_JI_OP")
-GITHUB = getenv("GITHUB", "https://t.me/Gupta_ji_op")
+SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/fairytale_07")
+SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/xbroze")
+GITHUB = getenv("GITHUB", "https://t.me/xbroze")
 
 AUTO_LEAVING_ASSISTANT = getenv("AUTO_LEAVING_ASSISTANT", "False")
 AUTO_LEAVE_ASSISTANT_TIME = int(getenv("ASSISTANT_LEAVE_TIME", "9000"))
