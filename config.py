@@ -50,7 +50,7 @@ UPSTREAM_REPO = getenv(
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "main")
 GIT_TOKEN = getenv("GIT_TOKEN", "")
 
-SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/fairytale_07")
+SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/narzoxbot")
 SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/xbroze")
 GITHUB = getenv("GITHUB", "https://t.me/xbroze")
 
@@ -79,8 +79,8 @@ votemode = {}
 autoclean = []
 confirmer = {}
 
-START_IMG_URL = getenv("START_IMG_URL", "https://graph.org/file/00e998a79b57a22c3a5df-237ef60d9c4f2b942c.jpg").split()
-HELP_IMG_URL = getenv("HELP_IMG_URL", "https://files.catbox.moe/u8ray8.jpg").split()
+START_IMG_URL = getenv("START_IMG_URL", "https://graph.org/file/ec892470f3dd08277612b-59e7d2bd194c2c2ee3.jpg").split()
+HELP_IMG_URL = getenv("HELP_IMG_URL", "https://graph.org/file/ec892470f3dd08277612b-59e7d2bd194c2c2ee3.jpg").split()
 PING_IMG_URL = getenv("PING_IMG_URL", "https://graph.org/file/c733732aa48f1f437cff8-46db3ecea9f26bc132.jpg").split()
 
 PLAYLIST_IMG_URL = getenv("PLAYLIST_IMG_URL", "https://i.ibb.co/gL3ykkyh/play-music.jpg").split()
