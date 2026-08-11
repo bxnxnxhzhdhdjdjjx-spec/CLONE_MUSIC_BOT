@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+bin/
+lib/
+share/
+Include/
+.env
+json_db/
+*.session
+*.session-journal
+log.txt
+.python-version
