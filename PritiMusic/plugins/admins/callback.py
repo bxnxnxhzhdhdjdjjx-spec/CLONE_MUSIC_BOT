@@ -130,7 +130,7 @@ async def donate_callback(client, CallbackQuery, _):
 """
     await CallbackQuery.edit_message_media(
         media=InputMediaPhoto(
-            media="https://graph.org/file/916265e6c56c71fbf20ae-ac1617a3505290a2a1.jpg",
+            media="https://graph.org/file/5fad8dd69a4e82899b36d-67dd4155895586e157.jpg",
             caption=donate_text
         ),
         reply_markup=InlineKeyboardMarkup(
