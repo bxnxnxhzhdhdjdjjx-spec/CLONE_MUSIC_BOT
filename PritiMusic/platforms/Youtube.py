@@ -283,9 +283,9 @@ class YouTubeAPI:
                 downloaded_file = await download_song(link)
             if downloaded_file:
                 return downloaded_file, True
-            return None, False
-        except Exception:
-            return None, False
+            raise Exception("Download returned empty/missing file")
+        except Exception as e:
+            raise Exception(f"Download failed: {e}")
 
 
 YouTube = YouTubeAPI()
