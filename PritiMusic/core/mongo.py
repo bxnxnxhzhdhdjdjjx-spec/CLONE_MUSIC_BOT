@@ -174,6 +174,24 @@ class JSONCollection:
                 break
         await self._save()
 
+    async def count_documents(self, filter_dict: Optional[Dict[str, Any]] = None) -> int:
+        await self._load()
+        if not filter_dict:
+            return len(self._data)
+        count = 0
+        for doc in self._data:
+            if _match_document(doc, filter_dict):
+                count += 1
+        return count
+
+    async def delete_many(self, filter_dict: Optional[Dict[str, Any]] = None):
+        await self._load()
+        if not filter_dict:
+            self._data = []
+        else:
+            self._data = [doc for doc in self._data if not _match_document(doc, filter_dict)]
+        await self._save()
+
 
 class MockMongoDatabase:
     def __init__(self, db_name: str):
