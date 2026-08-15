@@ -739,8 +739,8 @@ async def stream(client, _, mystic, user_id, result, chat_id, user_name, origina
         status = True if video else None
         try:
             file_path, direct = await YouTube.download(vidid, mystic, videoid=True, video=status)
-        except:
-            return await mystic.edit_text("❌ Error downloading video.")
+        except Exception as e:
+            return await mystic.edit_text(_["play_14"])
         if await is_active_chat(chat_id):
             await put_queue(chat_id, original_chat_id, file_path if direct else f"vid_{vidid}", title, duration_min, user_name, vidid, user_id, "video" if video else "audio")
             db[chat_id][-1]["client"] = client
