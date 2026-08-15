@@ -68,7 +68,7 @@ def _download_song_sync(url: str, video_id: str) -> str:
 def _download_video_sync(url: str, video_id: str) -> str:
     os.makedirs(DOWNLOAD_DIR, exist_ok=True)
     ydl_opts = {
-        "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
+        "format": "bestvideo+bestaudio/best",
         "outtmpl": os.path.join(DOWNLOAD_DIR, f"{video_id}.%(ext)s"),
         "geo_bypass": True,
         "nocheckcertificate": True,

@@ -22,6 +22,7 @@ from PritiMusic.utils.database import (
     is_maintenance,
 )
 from PritiMusic.utils.inline import botplaylist_markup
+from PritiMusic.utils.stream.stream import get_random_img
 from config import PLAYLIST_IMG_URL, SUPPORT_CHAT, adminlist
 from strings import get_string
 
@@ -75,7 +76,7 @@ def PlayWrapper(command):
                     return await message.reply_text(_["str_1"])
                 buttons = botplaylist_markup(_)
                 return await message.reply_photo(
-                    photo=PLAYLIST_IMG_URL,
+                    photo=get_random_img(PLAYLIST_IMG_URL),
                     caption=_["play_18"],
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
@@ -243,7 +244,7 @@ def CPlayWrapper(command):
                     return await message.reply_text(_["str_1"])
                 buttons = botplaylist_markup(_)
                 return await message.reply_photo(
-                    photo=PLAYLIST_IMG_URL,
+                    photo=get_random_img(PLAYLIST_IMG_URL),
                     caption=_["play_18"],
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
