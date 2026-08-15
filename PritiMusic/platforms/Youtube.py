@@ -33,66 +33,99 @@ def _download_song_sync(url: str, video_id: str) -> str:
     if os.path.exists(target_path) and os.path.getsize(target_path) > 0:
         return target_path
 
-    ydl_opts = {
-        "format": "bestaudio/best",
-        "outtmpl": os.path.join(DOWNLOAD_DIR, f"{video_id}.%(ext)s"),
-        "geo_bypass": True,
-        "nocheckcertificate": True,
-        "quiet": True,
-        "no_warnings": True,
-        "extractor_args": {
-            "youtube": {
-                "player_client": ["android", "ios", "web"]
-            }
-        },
-        "postprocessors": [
-            {
-                "key": "FFmpegExtractAudio",
-                "preferredcodec": "mp3",
-                "preferredquality": "192",
-            }
-        ],
-    }
-    cookie_file = _get_cookie_file()
-    if cookie_file:
-        ydl_opts["cookiefile"] = cookie_file
+    player_clients_list = [
+        ["ios", "android", "mweb", "web"],
+        ["android_creator", "ios"],
+        ["web_embedded", "mweb"]
+    ]
 
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
+    last_error = None
+    for clients in player_clients_list:
+        ydl_opts = {
+            "format": "bestaudio[ext=m4a]/bestaudio/best",
+            "outtmpl": os.path.join(DOWNLOAD_DIR, f"{video_id}.%(ext)s"),
+            "geo_bypass": True,
+            "nocheckcertificate": True,
+            "quiet": True,
+            "no_warnings": True,
+            "concurrent_fragment_downloads": 5,
+            "buffersize": 1024 * 16,
+            "extractor_args": {
+                "youtube": {
+                    "player_client": clients
+                }
+            },
+            "postprocessors": [
+                {
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp3",
+                    "preferredquality": "192",
+                }
+            ],
+        }
+        cookie_file = _get_cookie_file()
+        if cookie_file:
+            ydl_opts["cookiefile"] = cookie_file
 
-    if os.path.exists(target_path) and os.path.getsize(target_path) > 0:
-        return target_path
+        try:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([url])
+
+            if os.path.exists(target_path) and os.path.getsize(target_path) > 0:
+                return target_path
+        except Exception as e:
+            last_error = e
+
+    if last_error:
+        raise last_error
     return None
 
 
 def _download_video_sync(url: str, video_id: str) -> str:
     os.makedirs(DOWNLOAD_DIR, exist_ok=True)
-    ydl_opts = {
-        "format": "bestvideo+bestaudio/best",
-        "outtmpl": os.path.join(DOWNLOAD_DIR, f"{video_id}.%(ext)s"),
-        "geo_bypass": True,
-        "nocheckcertificate": True,
-        "quiet": True,
-        "no_warnings": True,
-        "extractor_args": {
-            "youtube": {
-                "player_client": ["android", "ios", "web"]
-            }
-        },
-    }
-    cookie_file = _get_cookie_file()
-    if cookie_file:
-        ydl_opts["cookiefile"] = cookie_file
 
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(url, download=True)
-        filename = ydl.prepare_filename(info)
-        for ext in ["mp4", "mkv", "webm", "3gp"]:
-            p = os.path.join(DOWNLOAD_DIR, f"{video_id}.{ext}")
-            if os.path.exists(p) and os.path.getsize(p) > 0:
-                return p
-        if os.path.exists(filename) and os.path.getsize(filename) > 0:
-            return filename
+    player_clients_list = [
+        ["ios", "android", "mweb", "web"],
+        ["android_creator", "ios"],
+        ["web_embedded", "mweb"]
+    ]
+
+    last_error = None
+    for clients in player_clients_list:
+        ydl_opts = {
+            "format": "bestvideo[height<=720]+bestaudio/best[height<=720]/best",
+            "outtmpl": os.path.join(DOWNLOAD_DIR, f"{video_id}.%(ext)s"),
+            "geo_bypass": True,
+            "nocheckcertificate": True,
+            "quiet": True,
+            "no_warnings": True,
+            "concurrent_fragment_downloads": 5,
+            "buffersize": 1024 * 16,
+            "extractor_args": {
+                "youtube": {
+                    "player_client": clients
+                }
+            },
+        }
+        cookie_file = _get_cookie_file()
+        if cookie_file:
+            ydl_opts["cookiefile"] = cookie_file
+
+        try:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                info = ydl.extract_info(url, download=True)
+                filename = ydl.prepare_filename(info)
+                for ext in ["mp4", "mkv", "webm", "3gp"]:
+                    p = os.path.join(DOWNLOAD_DIR, f"{video_id}.{ext}")
+                    if os.path.exists(p) and os.path.getsize(p) > 0:
+                        return p
+                if os.path.exists(filename) and os.path.getsize(filename) > 0:
+                    return filename
+        except Exception as e:
+            last_error = e
+
+    if last_error:
+        raise last_error
     return None
 
 
@@ -103,11 +136,8 @@ async def download_song(link: str) -> str:
 
     url = f"https://www.youtube.com/watch?v={video_id}" if "youtube.com" not in link and "youtu.be" not in link else link
     loop = asyncio.get_event_loop()
-    try:
-        file_path = await loop.run_in_executor(None, _download_song_sync, url, video_id)
-        return file_path
-    except Exception:
-        return None
+    file_path = await loop.run_in_executor(None, _download_song_sync, url, video_id)
+    return file_path
 
 
 async def download_video(link: str) -> str:
@@ -117,11 +147,8 @@ async def download_video(link: str) -> str:
 
     url = f"https://www.youtube.com/watch?v={video_id}" if "youtube.com" not in link and "youtu.be" not in link else link
     loop = asyncio.get_event_loop()
-    try:
-        file_path = await loop.run_in_executor(None, _download_video_sync, url, video_id)
-        return file_path
-    except Exception:
-        return None
+    file_path = await loop.run_in_executor(None, _download_video_sync, url, video_id)
+    return file_path
 
 
 class YouTubeAPI:

@@ -740,7 +740,7 @@ async def stream(client, _, mystic, user_id, result, chat_id, user_name, origina
         try:
             file_path, direct = await YouTube.download(vidid, mystic, videoid=True, video=status)
         except Exception as e:
-            return await mystic.edit_text(_["play_14"])
+            return await mystic.edit_text(f"<b>Failed to fetch track:</b> {e}")
         if await is_active_chat(chat_id):
             await put_queue(chat_id, original_chat_id, file_path if direct else f"vid_{vidid}", title, duration_min, user_name, vidid, user_id, "video" if video else "audio")
             db[chat_id][-1]["client"] = client

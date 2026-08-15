@@ -86,7 +86,7 @@ async def stream(
                         vidid, mystic, video=status, videoid=True
                     )
                 except Exception as e:
-                    raise AssistantErr(_["play_14"])
+                    raise AssistantErr(f"<b>Failed to fetch track:</b> {e}")
                 await Lucky.join_call(
                     chat_id,
                     original_chat_id,
@@ -155,7 +155,7 @@ async def stream(
                 vidid, mystic, videoid=True, video=status
             )
         except Exception as e:
-            raise AssistantErr(_["play_14"])
+            raise AssistantErr(f"<b>Failed to fetch track:</b> {e}")
         
         if await is_active_chat(chat_id):
             await put_queue(
