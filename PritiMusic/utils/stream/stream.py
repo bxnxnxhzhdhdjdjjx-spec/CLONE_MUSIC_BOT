@@ -85,7 +85,7 @@ async def stream(
                     file_path, direct = await YouTube.download(
                         vidid, mystic, video=status, videoid=True
                     )
-                except:
+                except Exception as e:
                     raise AssistantErr(_["play_14"])
                 await Lucky.join_call(
                     chat_id,
@@ -154,7 +154,7 @@ async def stream(
             file_path, direct = await YouTube.download(
                 vidid, mystic, videoid=True, video=status
             )
-        except:
+        except Exception as e:
             raise AssistantErr(_["play_14"])
         
         if await is_active_chat(chat_id):

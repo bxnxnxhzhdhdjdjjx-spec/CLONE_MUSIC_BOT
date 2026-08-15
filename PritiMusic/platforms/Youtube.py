@@ -20,6 +20,13 @@ def time_to_seconds(time):
     return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(":"))))
 
 
+def _get_cookie_file():
+    cookie_path = os.path.join("cookies", "cookies.txt")
+    if os.path.exists(cookie_path) and os.path.getsize(cookie_path) > 0:
+        return cookie_path
+    return None
+
+
 def _download_song_sync(url: str, video_id: str) -> str:
     os.makedirs(DOWNLOAD_DIR, exist_ok=True)
     target_path = os.path.join(DOWNLOAD_DIR, f"{video_id}.mp3")
@@ -33,6 +40,11 @@ def _download_song_sync(url: str, video_id: str) -> str:
         "nocheckcertificate": True,
         "quiet": True,
         "no_warnings": True,
+        "extractor_args": {
+            "youtube": {
+                "player_client": ["android", "ios", "web"]
+            }
+        },
         "postprocessors": [
             {
                 "key": "FFmpegExtractAudio",
@@ -41,6 +53,10 @@ def _download_song_sync(url: str, video_id: str) -> str:
             }
         ],
     }
+    cookie_file = _get_cookie_file()
+    if cookie_file:
+        ydl_opts["cookiefile"] = cookie_file
+
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
 
@@ -58,7 +74,16 @@ def _download_video_sync(url: str, video_id: str) -> str:
         "nocheckcertificate": True,
         "quiet": True,
         "no_warnings": True,
+        "extractor_args": {
+            "youtube": {
+                "player_client": ["android", "ios", "web"]
+            }
+        },
     }
+    cookie_file = _get_cookie_file()
+    if cookie_file:
+        ydl_opts["cookiefile"] = cookie_file
+
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
         filename = ydl.prepare_filename(info)
